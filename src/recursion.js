@@ -3,19 +3,19 @@
 // Solve the following prompts using recursion.
 
 // 1. Calculate the factorial of a number.
-//		base case: n = 0; reduction: n * n-1 edge: n is negative
+//	base case: n = 0; reduction: n * n-1 edge: n is negative
 var factorial = (n) => { 
 	return n < 0 ? null : n === 0 ? 1 : n * factorial(n - 1);
 };
 
 // 2. Compute the sum of an array of integers.
-//			base: array length is 0; reduction: index 0 + index 1
+//	base: array length is 0; reduction: index 0 + index 1
 var sum = (array) => {
    return (array.length === 0) ? 0 : array[0] + sum(array.slice(1));
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
-//			base: array length is 0 ; reduction: index 0 + index 1; edge: if index is an array run function on index
+//	base: array length is 0 ; reduction: index 0 + index 1; edge: if index is an array run function on index
 var arraySum = (array) => {
 	return (array.length === 0) ? 0 
 		: Array.isArray(array[0]) ? arraySum(array[0]) + arraySum(array.slice(1))
@@ -23,7 +23,7 @@ var arraySum = (array) => {
 };
 
 // 4. Check if a number is even.
-//			base case: n = 0 true, n = 1 false; reduction: n - 2; edge: (n < 0)
+//	base case: n = 0 true, n = 1 false; reduction: n - 2; edge: (n < 0)
 var isEven = (n) => {
 	return (n === 0) ? true
 		: (n === 1) ? false
@@ -32,7 +32,7 @@ var isEven = (n) => {
 };
 
 // 5. Sum all integers below a given integer.
-//		base: n = 0; recusion: n - 1 + sumBelow(n - 1); edge: (n < 0)
+//	base: n = 0; recusion: n - 1 + sumBelow(n - 1); edge: (n < 0)
 var sumBelow = (n) => {
 	return (n === 0) ? 0
 		: (n < 0) ? (n + 1) + sumBelow(n + 1)
@@ -40,7 +40,7 @@ var sumBelow = (n) => {
 };
 
 // 6. Get the integers within a range (x, y).
-// 		base: x is 1 place away from y; recursion increment x up or down towards y then concat to itself
+// 	base: x is 1 place away from y; recursion increment x up or down towards y then concat to itself
 var range =(x, y) => {
 	return ((x + 1) < y) ? [x + 1].concat(range((x + 1), y)) 
 		: ((x - 1) > y) ? [x - 1].concat(range((x - 1), y))
@@ -48,7 +48,7 @@ var range =(x, y) => {
 };
 
 // 7. Compute the exponent of a number.
-//base: exp is 0 base equals 1 recursion: increment exp towards but not reaching 0; edge: exp 0 output 1
+//	base: exp is 0 base equals 1 recursion: increment exp towards but not reaching 0; edge: exp 0 output 1
 var exponent =(base, exp) => {
   return (exp > 0) ? base * exponent(base, (exp - 1)) 
     : (exp < 0) ? 1 / (base * exponent(base, (-1 * (exp + 1))))
@@ -56,7 +56,7 @@ var exponent =(base, exp) => {
 };
 
 // 8. Determine if a number is a power of two.  **** NOTE: does not work for negative powers of 2
-//base: n = 2 is true n is between 2 and 0 is false ; recursion: divide n by 2 ; edge: n = 1 true;
+//	base: n = 2 is true n is between 2 and 0 is false ; recursion: divide n by 2 ; edge: n = 1 true;
 var powerOfTwo = (n) => {
   return (n === 2 || n === 1) ? true
     : (n > 2) ? powerOfTwo(n / 2)
@@ -64,22 +64,31 @@ var powerOfTwo = (n) => {
 };
 
 // 9. Write a function that reverses a string.
-//base: string length is zero; recursion: run reverse on chars after [0] then add [0] to result
+//	base: string length is zero; recursion: run reverse on chars after [0] then add [0] to result
 var reverse = (string) => {
   return (string.length === 0) ? ''
     : reverse(string.substr(1)) + string.charAt(0);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
-var palindrome = function(string) {
+//	base: str.length reaches zero with no false matches; recursion: if char 1st = last, remove and run again
+var palindrome = (string) => {
+  var str = string.toLowerCase().replace(/\s/g, '');
+  return (str.length <= 1) ? true
+    : (str.charAt(0) === str.charAt(str.length - 1)) ? palindrome(str.substr(1, str.length - 2))
+      : false; 
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
-// modulo (%) operator.
-// modulo(5,2) // 1
-// modulo(17,5) // 2
-// modulo(22,6) // 4
-var modulo = function(x, y) {
+//  base: diff between x and y is less than y; recursion: modulo(x - y, y) edge: y=0 return NaN
+//  if x < 0 output is (-) therefore need to switch sign of x and output
+//  if y < 0 switch it's sign so modulo() will incriment towards zero
+var modulo = (x, y) => {
+  return (y === 0) ? NaN
+    : (x < 0) ? -modulo(-x, y)
+      : (y < 0) ? modulo(x, -y)
+        : (x < y) ? x
+          : modulo(x-y, y);
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
