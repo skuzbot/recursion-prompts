@@ -1,3 +1,5 @@
+##Note from skuzbot to instructors: I'm trying to learn ES6 and practicing ternary ops so if this looks different than my previous work please don't think I copied answers!
+
 # Recursion Prompts
 
 ### **What is this?**
