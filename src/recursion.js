@@ -40,27 +40,34 @@ var sumBelow = (n) => {
 };
 
 // 6. Get the integers within a range (x, y).
-// range(2,9); // [3,4,5,6,7,8]
-var range = function(x, y) {
+// 		base: x is 1 place away from y; recursion increment x up or down towards y then concat to itself
+var range =(x, y) => {
+	return ((x + 1) < y) ? [x + 1].concat(range((x + 1), y)) 
+		: ((x - 1) > y) ? [x - 1].concat(range((x - 1), y))
+			: [];
 };
 
 // 7. Compute the exponent of a number.
-// The exponent of a number says how many times the base number is used as a factor.
-// 8^2 = 8 x 8 = 64. Here, 8 is the base and 2 is the exponent.
-// exponent(4,3); // 64
-// https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
-var exponent = function(base, exp) {
+//base: exp is 0 base equals 1 recursion: increment exp towards but not reaching 0; edge: exp 0 output 1
+var exponent =(base, exp) => {
+  return (exp > 0) ? base * exponent(base, (exp - 1)) 
+    : (exp < 0) ? 1 / (base * exponent(base, (-1 * (exp + 1))))
+      : 1;
 };
 
-// 8. Determine if a number is a power of two.
-// powerOfTwo(1); // true
-// powerOfTwo(16); // true
-// powerOfTwo(10); // false
-var powerOfTwo = function(n) {
+// 8. Determine if a number is a power of two.  **** NOTE: does not work for negative powers of 2
+//base: n = 2 is true n is between 2 and 0 is false ; recursion: divide n by 2 ; edge: n = 1 true;
+var powerOfTwo = (n) => {
+  return (n === 2 || n === 1) ? true
+    : (n > 2) ? powerOfTwo(n / 2)
+      : false;
 };
 
 // 9. Write a function that reverses a string.
-var reverse = function(string) {
+//base: string length is zero; recursion: run reverse on chars after [0] then add [0] to result
+var reverse = (string) => {
+  return (string.length === 0) ? ''
+    : reverse(string.substr(1)) + string.charAt(0);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
