@@ -92,21 +92,34 @@ var modulo = (x, y) => {
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
-// Math methods.
-var multiply = function(x, y) {
+//  base: x is 1 return y; recusion: y + multiply(x - 1, y) edge: either is 0
+var multiply = (x, y) => {
+  return (x === 0 || y === 0) ? 0
+    : (x < 0) ? -multiply(-x, y)
+      : (y < 0) ? -multiply(x, -y)
+        : (x > 1) ? y + multiply(x - 1, y)
+          : y;
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
-// Math methods to arrive at an approximate quotient (ignore decimal endings).
-var divide = function(x, y) {
+//  base: distance from x to 0 is less than y; recursion: 1 + divide((x - y), y)
+var divide =(x, y) => {
+  return (y === 0) ? NaN
+    : (x < 0) ? -divide(-x, y)
+      : (y < 0) ? divide(x, -y)
+        : (x < y) ? 0
+          : 1 + divide((x - y), y);
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
-// gcd(4,36); // 4
-// http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
-// https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
-var gcd = function(x, y) {
+//  base: upper % lower = 0; recusion: gcd(lower, (upper % lower)); edge: null if a || b < 0
+var gcd = (x, y) => {
+  var lower = Math.min(x, y);
+  var upper = Math.max(x, y);
+  return (x < 0 || y < 0) ? null
+    :(upper % lower === 0) ? lower
+      : gcd(lower, (upper % lower));
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
