@@ -124,24 +124,33 @@ var gcd = (x, y) => {
 
 // 15. Write a function that compares each character of two strings and returns true if
 // both are identical.
-// compareStr('house', 'houses') // false
-// compareStr('tomato', 'tomato') // true
+//  base: str1 and str2 length = 0; recursion: incriment over each letter until both ''
 var compareStr = function(str1, str2) {
+  return ((str1.charAt(0) === '') && (str2.charAt(0) === '')) ? true
+    : (str1.charAt(0) === str2.charAt(0)) ? compareStr(str1.substr(1), str2.substr(1))
+      : false; 
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
+// base: str.length = 0; recursion: concat substr(1) to charAt(0)
 var createArray = function(str) {
+  return (str.length > 0) ? [str.charAt(0)].concat(createArray(str.substr(1)))
+    : [];
 };
 
 // 17. Reverse the order of an array
+//  base: length = 0; take last index then concat reversArr of the remaining indexes
 var reverseArr = function(array) {
+  return (array.length > 0) ? [array[array.length - 1]].concat(reverseArr(array.slice(0, -1)))
+    : [];
 };
 
 // 18. Create a new array with a given value and length.
-// buildList(0,5) // [0,0,0,0,0]
-// buildList(7,3) // [7,7,7]
+//  base: length = 0; recursion: concat value with length -1
 var buildList = function(value, length) {
+  return (length > 0) ? [value].concat(buildList(value, length - 1))
+    : [];
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
@@ -149,7 +158,12 @@ var buildList = function(value, length) {
 // For multiples of five, output 'Buzz' instead of the number.
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
-var fizzBuzz = function(n) {
+var fizzBuzz = (n) => {
+  return ((n % 3 === 0) && (n % 5 === 0)) ? fizzBuzz(n - 1).concat('FizzBuzz')
+    : (n % 5 === 0) ? fizzBuzz(n - 1).concat('Buzz')
+      : (n % 3 === 0) ? fizzBuzz(n - 1).concat('Fizz')
+        : (n > 1) ? fizzBuzz(n - 1).concat(String(n))
+          : ['1'];
 };
 
 // 20. Count the occurence of a value in a list.
