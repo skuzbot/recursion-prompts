@@ -195,7 +195,7 @@ var countKeysInObj =(obj, key) => {
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
-var countValuesInObj =(obj, value) => {
+var countValuesInObj = (obj, value) => {
   var counter = 0;
 
   for (var k in obj) {
@@ -211,7 +211,7 @@ var countValuesInObj =(obj, value) => {
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
-var replaceKeysInObj = function(obj, oldKey, newKey) {
+var replaceKeysInObj = (obj, oldKey, newKey) => {
   for (var k in obj) {
     if (k === oldKey) {
       obj[newKey] = obj[k];
@@ -226,30 +226,39 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
 // number is the sum of the previous two.
-// Example: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34.....
-// fibonacci(5); // [0,1,1,2,3,5]
-// Note: The 0 is not counted.
-var fibonacci = function(n) {
-  
+//	base: n = 0; recursion:return array of fn-1, fn-1 + fn-2 
+var fibonacci =(n) => {
+	if (n <= 0) {
+		return null;
+	}
+	if (n === 1) {
+		return [0, 1];
+	}
+	var array = fibonacci(n - 1);
+	return [...array, array[n - 1] + array[n - 2]];
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
-// [0,1,1,2,3,5,8,13,21]
-// nthFibo(5); // 5
-// nthFibo(7); // 13
-// nthFibo(3); // 2
-var nthFibo = function(n) {
+// base: n = 0 recursion: return fn-1 fn-2
+var nthFibo = (n) => {
+	return (n > 1) ? nthFibo(n - 1) + nthFibo(n - 2)
+		: (n === 1) ? 1
+			: (n === 0) ? 0
+				: null;
 };
 
 // 27. Given an array of words, return a new array containing each word capitalized.
-// var words = ['i', 'am', 'learning', 'recursion'];
-// capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
-var capitalizeWords = function(array) {
+//base: !array.length; recursion: array[0].toUppercase()
+var capitalizeWords =(array) => {
+	return (!array.length) ? []
+		: [array[0].toUpperCase()].concat(capitalizeWords(array.slice(1)));
 };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
-// capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
-var capitalizeFirst = function(array) {
+//base: !array.length; recursion: array[0] chain split, toUpper, concat with array[0] slice(1)
+var capitalizeFirst =(array) => {
+	return (!array.length) ? []
+		: [array[0].split('')[0].toUpperCase().concat(array[0].split('').slice(1)).replace(/,/g, '')].concat(capitalizeFirst(array.slice(1)));
 };
 
 // 29. Return the sum of all even numbers in an object containing nested objects.
