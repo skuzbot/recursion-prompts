@@ -125,7 +125,7 @@ var gcd = (x, y) => {
 // 15. Write a function that compares each character of two strings and returns true if
 // both are identical.
 //  base: str1 and str2 length = 0; recursion: incriment over each letter until both ''
-var compareStr = function(str1, str2) {
+var compareStr = (str1, str2) => {
   return ((str1.charAt(0) === '') && (str2.charAt(0) === '')) ? true
     : (str1.charAt(0) === str2.charAt(0)) ? compareStr(str1.substr(1), str2.substr(1))
       : false; 
@@ -134,23 +134,20 @@ var compareStr = function(str1, str2) {
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 // base: str.length = 0; recursion: concat substr(1) to charAt(0)
-var createArray = function(str) {
-  return (str.length > 0) ? [str.charAt(0)].concat(createArray(str.substr(1)))
-    : [];
+var createArray = (str) => {
+  return (str.length > 0) ? [str.charAt(0)].concat(createArray(str.substr(1))) : [];
 };
 
 // 17. Reverse the order of an array
 //  base: length = 0; take last index then concat reversArr of the remaining indexes
-var reverseArr = function(array) {
-  return (array.length > 0) ? [array[array.length - 1]].concat(reverseArr(array.slice(0, -1)))
-    : [];
+var reverseArr =(array) => {
+  return (array.length > 0) ? [array[array.length - 1]].concat(reverseArr(array.slice(0, -1))) : [];
 };
 
 // 18. Create a new array with a given value and length.
 //  base: length = 0; recursion: concat value with length -1
-var buildList = function(value, length) {
-  return (length > 0) ? [value].concat(buildList(value, length - 1))
-    : [];
+var buildList =(value, length) => {
+  return (length > 0) ? [value].concat(buildList(value, length - 1)) : [];
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
@@ -167,33 +164,64 @@ var fizzBuzz = (n) => {
 };
 
 // 20. Count the occurence of a value in a list.
-// countOccurrence([2,7,4,4,1,4], 4) // 3
-// countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
-var countOccurrence = function(array, value) {
+//  base: array.length = 0; recursion: check array[0] matches value then run on array.slice(1)
+var countOccurrence = (array, value) => {
+  return (!array.length) ? 0 : (array[0] === value) + countOccurrence(array.slice(1), value);
 };
 
 // 21. Write a recursive version of map.
-// rMap([1,2,3], timesTwo); // [2,4,6]
-var rMap = function(array, callback) {
+//  base: array.length = 0; recursion: callback(array[0) then concat slice(1)
+var rMap = (array, callback) => {
+  return (!array.length) ? array : [callback(array[0])].concat(rMap(array.slice(1), callback));
 };
 
 // 22. Write a function that counts the number of times a key occurs in an object.
-// var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
-// countKeysInObj(obj, 'r') // 1
-// countKeysInObj(obj, 'e') // 2
-var countKeysInObj = function(obj, key) {
+var countKeysInObj =(obj, key) => {
+  var counter = 0;
+
+  for (var k in obj) {
+    if (k === key) {
+      counter++;
+    }
+    if(typeof obj[k] === 'object') {
+      counter += countKeysInObj(obj[k], key);
+    }
+  }
+
+  return counter;
 };
 
 // 23. Write a function that counts the number of times a value occurs in an object.
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
-var countValuesInObj = function(obj, value) {
+var countValuesInObj =(obj, value) => {
+  var counter = 0;
+
+  for (var k in obj) {
+    if (obj[k] === value) {
+      counter++;
+    }
+    if (typeof obj[k] === 'object') {
+     counter += countValuesInObj(obj[k], value)
+    }
+  }
+  return counter;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+  for (var k in obj) {
+    if (k === oldKey) {
+      obj[newKey] = obj[k];
+      delete obj[k];
+    }
+    if (typeof obj[k] === 'object') {
+      replaceKeysInObj(obj[k], oldKey, newKey);
+    }
+  }
+  return obj;
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
@@ -202,6 +230,7 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
+  
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
