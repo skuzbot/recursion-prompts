@@ -250,8 +250,7 @@ var nthFibo = (n) => {
 // 27. Given an array of words, return a new array containing each word capitalized.
 //base: !array.length; recursion: array[0].toUppercase()
 var capitalizeWords =(array) => {
-	return (!array.length) ? []
-		: [array[0].toUpperCase()].concat(capitalizeWords(array.slice(1)));
+	return (!array.length) ? [] : [array[0].toUpperCase()].concat(capitalizeWords(array.slice(1)));
 };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
@@ -286,28 +285,37 @@ var flatten = (array) => {
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
-// letterTally('potato'); // {p:1, o:2, t:2, a:1}
-var letterTally = function(str, obj) {
+//  base: string length = 0 recursion: if !obj.key create, if obj.key ++
+var letterTally = (str, obj) => {
+  obj = obj || {};
+  var key = str.substr(0, 1);
+  return (!str.length) ? obj
+    : (!obj.hasOwnProperty(key)) ? (obj[key] = 1, letterTally(str.substr(1), obj))
+      :(obj[key]++, letterTally(str.substr(1), obj));
 };
 
 // 32. Eliminate consecutive duplicates in a list. If the list contains repeated
-// elements they should be replaced with a single copy of the element. The order of the
-// elements should not be changed.
-// compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
-// compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
-var compress = function(list) {
+//  base: list.length = 0 recursion: if 0 = 1 concat(f(list.slice)) else f(list.slice)
+var compress = (list) => {
+  return (!list.length) ? []
+    : (list[0] !== list[1]) ? [list[0]].concat(compress(list.slice(1)))
+      : compress(list.slice(1));
 };
 
 // 33. Augument every element in a list with a new value where each element is an array
 // itself.
-// augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
-var augmentElements = function(array, aug) {
+//  base: a.length = 0; recursion: a[0, aug].concat(f(a.slice))
+var augmentElements = (array, aug) => {
+  return (!array.length) ? [] : [array[0].concat(aug)].concat(augmentElements(array.slice(1), aug));
 };
 
 // 34. Reduce a series of zeroes to a single 0.
-// minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
-// minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
+//  base: a.length = 0; recursion: concat if > 0 or if a[0] and a[1] != 0 else slice(1)
+var minimizeZeroes = (array) => {
+  return (!array.length) ? []
+    : (array[0] !== 0) ? [array[0]].concat(minimizeZeroes(array.slice(1)))
+      : (array[0] === 0 && array[1] !== 0) ? [array[0]].concat(minimizeZeroes(array.slice(1)))
+        : minimizeZeroes(array.slice(1));
 };
 
 // 35. Alternate the numbers in an array between positive and negative regardless of
