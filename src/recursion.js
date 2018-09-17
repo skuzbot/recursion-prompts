@@ -261,21 +261,28 @@ var capitalizeFirst =(array) => {
 		: [array[0].split('')[0].toUpperCase().concat(array[0].split('').slice(1)).replace(/,/g, '')].concat(capitalizeFirst(array.slice(1)));
 };
 
-// 29. Return the sum of all even numbers in an object containing nested objects.
-// var obj1 = {
-//   a: 2,
-//   b: {b: 2, bb: {b: 3, bb: {b: 2}}},
-//   c: {c: {c: 2}, cc: 'ball', ccc: 5},
-//   d: 1,
-//   e: {e: {e: 2}, ee: 'car'}
-// };
 // nestedEvenSum(obj1); // 10
-var nestedEvenSum = function(obj) {
+//  base: iterate through all keys and nested keys recursion: add prop if even to func(obj[key]) if nested
+var nestedEvenSum = (obj) => {
+var sum = 0;
+for (var k in obj) {
+  if (obj[k] % 2 === 0) {
+    sum += obj[k];
+  }
+  if (typeof obj[k] === 'object') {
+    sum += nestedEvenSum(obj[k]);
+  }
+}
+return sum;
 };
 
 // 30. Flatten an array containing nested arrays.
-// flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
-var flatten = function(array) {
+//  base: a.length = 0 recursion: check if a[0] is array no a[0].concat(a.slice(1)). if yes a[0].join(' ').concat(a.slice(1))
+var flatten = (array) => {
+  return (!array.length) ? []
+    : (!Array.isArray(array[0])) ? [array[0]].concat(flatten(array.slice(1)))
+      : (typeof array[0][0] === 'number') ? [array[0][0]].concat(flatten(array[0].slice(1))).concat(flatten(array.slice(1)))
+        : flatten(array[0]).concat(flatten(array.slice(1)));
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
